@@ -627,18 +627,8 @@ class Zappa:
                 )
             else:
                 copytree(cwd, temp_project_path, metadata=False, symlinks=False)
-            
-            ignore_excludes = []
-
-            for glob_path in exclude_glob:
-                if glob_path.startswith("!"):
-                    ignore_excludes.extend(glob.glob(os.path.join(temp_project_path, glob_path[1:])))
-
             for glob_path in exclude_glob:
                 for path in glob.glob(os.path.join(temp_project_path, glob_path)):
-                    if path in ignore_excludes:
-                        continue
-
                     try:
                         os.remove(path)
                     except OSError:  # is a directory
@@ -769,17 +759,8 @@ class Zappa:
                 # XXX - What should we do here?
 
         # Cleanup
-        ignore_excludes = []
-
-        for glob_path in exclude_glob:
-            if glob_path.startswith("!"):
-                ignore_excludes.extend(glob.glob(os.path.join(temp_project_path, glob_path[1:])))
-
         for glob_path in exclude_glob:
             for path in glob.glob(os.path.join(temp_project_path, glob_path)):
-                if path in ignore_excludes:
-                    continue
-
                 try:
                     os.remove(path)
                 except OSError:  # is a directory
